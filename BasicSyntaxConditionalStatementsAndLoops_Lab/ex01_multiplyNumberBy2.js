@@ -1,0 +1,1 @@
+function multiplyNumberBy2
