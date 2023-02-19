@@ -1,0 +1,931 @@
+ при cheap трябва да провериш всички елементи, които са по-малки от числото на дадения индекс,в първия случай 5
+
+а при expensive по-големите
+при втория вход на трети индекс ти е 5
+трябва да вземеш само елементите които са по-малки от 5
+и от ляво и от дясно
+след тази проверка събираш сумата на двете страни
+числата,които са ти останали
+не се събира директно числата от дадения масив
+
+
+----------------------
+ John....lef....right
+
+
+const calculateDamage = (items, entryPoint, priceRating) => {
+let leftSum = 0;
+let rightSum = 0;
+
+// Calculate damage to left side
+	for (let i = entryPoint - 1; i >= 0; i--) {
+		if (items[i] >= priceRating) {
+			leftSum += items[i];
+		} else {
+			break;
+		}
+	}
+
+// Calculate damage to right side
+	for (let i = entryPoint + 1; i < items.length; i++) {
+		if (items[i] >= priceRating) {
+			rightSum += items[i];
+		} else {
+			break;
+		}
+	}
+
+// Print higher damage or left if both sums are equal
+	if (leftSum === rightSum) {
+		console.log("Left - " + leftSum);
+		} else {
+		console.log(leftSum > rightSum ? "Left - " + leftSum : "Right - " + rightSum);
+		}
+	}
+
+// Example usage
+calculateDamage([1, 5, 1], 1, "cheap"); // Output: Left - 1
+
+
+========================================================================================
+FriendListMaintenance
+
+function solve(input) {
+    const friends = input[0].split(", ")
+    const commands = input.slice(1)
+
+    let line = commands.shift()
+    let data = []
+    let command = ""
+    let name = ""
+    let index = -1
+    let currentIndex = 0
+    const isValidIndex = (arr, index) => index >= 0 && index < arr.length
+
+    while (command !== "Report") {
+        data = line.split(" ")
+        command = data.shift()
+
+        if (command === "Blacklist") {
+            name = data[0]
+            index = friends.indexOf(name)
+            if (index > -1) {
+                friends.splice(index, 1, "Blacklisted")
+                console.log(`${name} was blacklisted.`)
+            } else {
+                console.log(`${name} was not found.`)
+            }
+        }
+
+        if (command === "Error") {
+            currentIndex = data[0]
+            if (isValidIndex(friends, currentIndex)) {
+                name = friends[currentIndex]
+                if (name !== "Blacklisted" && name !== "Lost") {
+                    friends.splice(currentIndex, 1, "Lost")
+                    console.log(`${name} was lost due to an error.`)
+                }
+            }
+        }
+
+        if (command === "Change") {
+            currentIndex = data[0]
+            if (isValidIndex(friends, currentIndex)) {
+                let newName = data[1]
+                name = friends[currentIndex]
+                friends.splice(currentIndex, 1, newName)
+                console.log(`${name} changed his username to ${newName}.`)
+            }
+        }
+
+        line = commands.shift()
+    }
+
+    const blacklisted = friends.filter(name => name === "Blacklisted").length
+    const lost = friends.filter(name => name === "Lost").length
+
+    console.log(`Blacklisted names: ${blacklisted}`)
+    console.log(`Lost names: ${lost}`)
+    console.log(friends.join(" "))
+}
+
+solve([
+    "Mike, John, Eddie",
+    "Blacklist Mike",
+    "Error 0",
+    "Report"
+])
+// Mike was blacklisted.
+// Blacklisted names: 1 
+// Lost names: 0
+// Blacklisted John Eddie
+
+solve([
+    "Mike, John, Eddie, William",
+    "Error 3",
+    "Error 3",
+    "Change 0 Mike123",
+    "Report"
+])
+// William was lost due to an error.
+// Mike changed his username to Mike123.
+// Blacklisted names: 0
+// Lost names: 1
+// Mike123 John Eddie Lost
+
+solve([
+    "Mike, John, Eddie, William",
+    "Blacklist Maya",
+    "Error 1",
+    "Change 4 George",
+    "Report"
+])
+// Maya was not found.
+// John was lost due to an error.
+// Blacklisted names: 0
+// Lost names: 1
+// Mike Lost Eddie William
+
+=====================================================================================
+Cooking masterclass
+
+
+// not submitted
+function solve(input) {
+    const budget = Number(input[0])
+    const students = Number(input[1])
+    const price = {
+        flour: Number(input[2]),
+        eggs: Number(input[3]) * 10,
+        apron: Number(input[4])
+    }
+
+    const flour = (students - Math.floor(students / 5)) * price.flour
+    const eggs = students * price.eggs
+    const apron = Math.ceil(students + students * 0.2) * price.apron
+
+    const total = flour + eggs + apron
+
+    if (budget >= total) {
+        console.log(`Items purchased for ${total.toFixed(2)}$`)
+    } else {
+        console.log(`${(total - budget).toFixed(2)}$ more needed.`)
+    }
+}
+
+solve([50, 2, 1.0, 0.1, 10.0]) // Items purchased for 34.00$
+solve([100, 25, 4.0, 1.0, 6.0]) // 410.00$ more needed.
+solve([946, 20, 12.05, 0.42, 27.89]) // 0.16$ more needed.
+
+
+=========================================================================================
+Space Travel 
+
+function spaceTravel(input) {
+	let travelInfoArr = input.shift().split("||");
+	let fuel = Number(input.shift());
+	let ammo = Number(input.shift());
+
+	for (const line of travelInfoArr) {
+		if (line === "Titan") {
+			return console.log("You have reached Titan, all passengers are safe.");
+		}
+
+		let tokens = line.split(" ");
+		let command = tokens.shift();
+		let int = Number(tokens.shift());
+
+		switch (command) {
+			case "Travel":
+				if (fuel - int >= 0) {
+					fuel -= int;
+					console.log(`The spaceship travelled ${int} light-years.`);
+				} else {
+					return console.log("Mission failed.");
+				}
+				break;
+			case "Enemy":
+				if (ammo >= int) {
+					ammo -= int;
+					console.log(`An enemy with ${int} armour is defeated.`);
+				} else {
+					if (fuel - int * 2 > 0) {
+						fuel -= int * 2;
+						console.log(`An enemy with ${int} armour is outmaneuvered.`);
+					} else {
+						return console.log("Mission failed.");
+					}
+				}
+				break;
+			case "Repair":
+				fuel += int;
+				ammo += int * 2;
+				console.log(`Ammunitions added: ${int * 2}.`);
+				console.log(`Fuel added: ${int}.`);
+				break;
+		}
+	}
+}
+// spaceTravel(["Travel 10||Enemy 30||Repair 15||Titan", "50", "80"]);
+spaceTravel(["Travel 20||Enemy 50||Enemy 50||Enemy 10||Repair 15||Enemy 50||Titan", "60", "100"]);
+
+
+========================================================================================
+Space Travel
+
+// not submitted
+function solve(input) {
+    const route = input[0].split("||")
+    let line = route.shift()
+    let instructions = line.split(" ")
+    let command = instructions.shift()
+    let fuel = Number(input[1])
+    let ammunition = Number(input[2])
+
+    while (command.length && command !== "Titan") {
+        instructions = line.split(" ")
+        command = instructions.shift()
+
+        if (command === "Travel") {
+            let distance = Number(instructions[0])
+            if (distance <= fuel) {
+                fuel -= Number(instructions[0])
+                console.log(`The spaceship travelled ${distance} light - years.`)
+            } else {
+                console.log(`Mission failed.`)
+                return
+            }
+        }
+        if (command === "Enemy") {
+            let armour = Number(instructions[0])
+            if (ammunition >= armour) {
+                ammunition -= armour
+                console.log(`An enemy with ${armour} armour is defeated.`)
+            } else {
+                let neededFuel = armour * 2
+                if (neededFuel <= fuel) {
+                    fuel -= neededFuel
+                    console.log(`An enemy with ${armour} armour is outmaneuvered.`)
+                } else {
+                    console.log(`Mission failed.`)
+                    return
+                }
+            }
+        }
+        if (command === "Repair") {
+            let add = Number(instructions[0])
+            fuel += add
+            ammunition += 2 * add
+            console.log(`Ammunitions added: ${2 * add}.`)
+            console.log(`Fuel added: ${add}.`)
+        }
+        line = route.shift()
+    }
+
+    console.log(`You have reached Titan, all passengers are safe.`)
+}
+
+
+
+solve([
+    'Travel 10||Enemy 30||Repair 15||Titan',
+    '50',
+    '80'
+])
+// The spaceship travelled 10 light-years.
+// An enemy with 30 armour is defeated.
+// Ammunitions added: 30.
+// Fuel added: 15.
+// You have reached Titan, all passengers are safe.
+
+solve([
+    'Travel 20||Enemy 50||Enemy 50||Enemy 10||Repair 15||Enemy 50||Titan',
+    '60',
+    '100'
+])
+// The spaceship travelled 20 light-years.
+// An enemy with 50 armour is defeated.
+// An enemy with 50 armour is defeated.
+// An enemy with 10 armour is outmaneuvered.
+// Ammunitions added: 30.
+// Fuel added: 15.
+// Mission failed.
+
+=========================================================================================
+School library 
+
+
+// not submitted
+function solve(input) {
+    const shelf = input[0].split("&")
+    const commands = input.slice(1)
+    let line = commands.shift().split(" | ")
+    let command = ""
+    let name = ""
+    let index = -1
+
+    while (commands.length > 0 && command !== "Done") {
+        command = line.shift().split(" ")[0]
+
+        if (command === "Add") {
+            name = line[0]
+            if (!shelf.includes(name)) {
+                shelf.splice(0, 0, name)
+            }
+        }
+
+        if (command === "Take") {
+            name = line[0]
+            index = shelf.indexOf(name)
+            if (index > -1) {
+                shelf.splice(index, 1)
+            }
+        }
+
+        if (command === "Swap") {
+            let book_1 = line[0]
+            let book_2 = line[1]
+            let areIncluded = shelf.includes(book_1) && shelf.includes(book_2)
+            if (areIncluded) {
+                index = shelf.indexOf(book_1)
+                let index2 = shelf.indexOf(book_2)
+                shelf.splice(index, 1, book_2)
+                shelf.splice(index2, 1, book_1)
+            }
+        }
+
+        if (command === "Insert") {
+            name = line[0]
+            index = shelf.indexOf(name)
+            if (index == -1) {
+                shelf.splice(shelf.length, 0, name)
+            }
+        }
+
+        if (command === "Check") {
+            index = Number(line[0])
+            if (index >= 0 && index < shelf.length) {
+                console.log(shelf[index])
+            }
+        }
+        line = commands.shift().split(" | ")
+    }
+    console.log(shelf.join(", "))
+}
+
+solve([
+    "Don Quixote&The Great Gatsby&Moby Dick",
+    "Add Book | Ulysses",
+    "Take Book | Don Quixote",
+    "Insert Book | Alice's Adventures in Wonderland",
+    "Done"
+]) // Ulysses, The Great Gatsby, Moby Dick, Alice's Adventures in Wonderland
+
+solve([
+    "Anna Karenina&Heart of Darkness&Catch-22&The Stranger",
+    "Add Book | Catch-22",
+    "Swap Books | Anna Karenina | Catch-22",
+    "Take Book | David Copperfield",
+    "Done"
+]) // Catch-22, Heart of Darkness, Anna Karenina, The Stranger
+
+solve([
+    "War and Peace&Hamlet&Ulysses&Madame Bovary",
+    "Check Book | 2",
+    "Swap Books | Don Quixote | Ulysses",
+    "Done"
+])
+// Ulysses
+// War and Peace, Hamlet, Ulysses, Madame Bovary
+
+=========================================================================================
+Deck of Cards 
+
+function deckOfCards(input) {
+	let listOfCards = input.shift().split(", ");
+	let num = Number(input.shift());
+
+	for (const line of input) {
+		let tokens = line.split(", ");
+		let command = tokens.shift();
+
+		switch (command) {
+			case "Add":
+				let cardToAdd = tokens[0];
+				if (!listOfCards.includes(cardToAdd)) {
+					listOfCards.push(cardToAdd);
+					console.log("Card successfully added");
+				} else {
+					console.log("Card is already in the deck");
+				}
+				break;
+			case "Remove":
+				let cardToRemove = tokens[0]
+				if (listOfCards.includes(cardToRemove)) {
+					let indexToRemove = listOfCards.indexOf(cardToRemove);
+					listOfCards.splice(indexToRemove, 1);
+					console.log("Card successfully removed");
+				} else {
+					console.log("Card not found");
+				}
+				break;
+			case "Remove At":
+				let removeAtIndex = Number(tokens[0]);
+				if (listOfCards[removeAtIndex]) {
+					listOfCards.splice(removeAtIndex, 1);
+					console.log("Card successfully removed");
+				} else {
+					console.log("Index out of range");
+				}
+				break;
+			case "Insert":
+				let indexToInsert = Number(tokens[0]);
+				let cardToInsert = tokens[1];
+				if (listOfCards[indexToInsert]) {
+					if (!listOfCards.includes(cardToInsert)) {
+						listOfCards.splice(indexToInsert, 0, cardToInsert);
+						console.log("Card successfully added");
+					} else {
+						console.log("Card is already added");
+					}
+				} else {
+					console.log("Index out of range");
+				}
+				break;
+		}
+	}
+	console.log(listOfCards.join(", "));
+}
+deckOfCards([
+	"Ace of Diamonds, Queen of Hearts, King of Clubs",
+	"3",
+	"Add, King of Diamonds",
+	"Insert, 2, Jack of Spades",
+	"Remove, Ace of Diamonds",
+]);
+deckOfCards([
+	"Two of Clubs, King of Spades, Five of Spades, Jack of Hearts",
+	"2",
+	"Add, Two of Clubs",
+	"Remove, Five of Hearts",
+]);
+deckOfCards([
+	"Jack of Spades, Ace of Clubs, Jack of Clubs",
+	"2",
+	"Insert, -1, Queen of Spades",
+	"Remove At, 1",
+]);
+========================================================================================
+The Hunting Games 
+
+function theHuntingGames(input) {
+	let days = Number(input.shift());
+	let playersCount = Number(input.shift());
+	let groupEnergy = Number(input.shift());
+	let waterPerPersonPerDay = Number(input.shift());
+	let foodPerPersonPerDay = Number(input.shift());
+
+	let totalWater = playersCount * days * waterPerPersonPerDay;
+	let totalFood = playersCount * days * foodPerPersonPerDay;
+
+	for (let day = 0; day < days; day++) {
+		let energyLost = Number(input[day]);
+		groupEnergy -= energyLost;
+		if (groupEnergy <= 0) {
+			console.log(
+				`You will run out of energy. You will be left with ${totalFood.toFixed(
+					2
+				)} food and ${totalWater.toFixed(2)} water.`
+			);
+			return;
+		}
+		if ((day + 1) % 2 === 0) {
+			groupEnergy *= 1.05;
+			totalWater *= 0.7;
+		}
+		if ((day + 1) % 3 === 0) {
+			groupEnergy *= 1.1;
+			totalFood -= totalFood / playersCount;
+		}
+	}
+	console.log(
+		`You are ready for the quest. You will be left with - ${groupEnergy.toFixed(2)} energy!`
+	);
+}
+// theHuntingGames([
+// 	"10",
+// 	"7",
+// 	"5035.5",
+// 	"11.3",
+// 	"7.2",
+// 	"942.3",
+// 	"500.57",
+// 	"520.68",
+// 	"540.87",
+// 	"505.99",
+// 	"630.3",
+// 	"784.20",
+// 	"321.21",
+// 	"456.8",
+// 	"330",
+// ]);
+theHuntingGames(["12",
+"6",
+"4430",
+"9.8",
+"5.5",
+"620.3",
+"840.2",
+"960.1",
+"220",
+"340",
+"674",
+"365",
+"345.5",
+"212",
+"412.12",
+"258",
+"496"])
+========================================================================================
+Hunting Games
+
+// not submitted
+function solve(input) {
+    const days = Number(input[0])
+    const players = Number(input[1])
+    let energy = Number(input[2])
+    let water = Number(input[3]) * players * days
+    let food = Number(input[4]) * players * days
+
+    const energyLoss = input.slice(5).map(Number)
+
+    for (let i = 1; i <= days; i++) {
+        if (energy <= 0) {
+            break
+        }
+        energy -= energyLoss[i - 1]
+        if (i % 2 === 0) {
+            // water => energy +5%
+            // water -30%
+            energy += energy * 0.05
+            water -= water * 0.3
+        }
+        if (i % 3 === 0) {
+            // food => energy +10%
+            // food -= currentFood / people
+            energy += energy * 0.1
+            food -= food / players
+        }
+    }
+
+    if (energy > 0) {
+        console.log(`You are ready for the quest. You will be left with - ${energy.toFixed(2)} energy!`)
+    } else {
+        console.log(`You will run out of energy. You will be left with ${food.toFixed(2)} food and ${water.toFixed(2)} water.`)
+    }
+}
+
+solve([
+    "10",
+    "7",
+    "5035.5",
+    "11.3",
+    "7.2",
+    "942.3",
+    "500.57",
+    "520.68",
+    "540.87",
+    "505.99",
+    "630.3",
+    "784.20",
+    "321.21",
+    "456.8",
+    "330"
+]) // You are ready for the quest. You will be left with - 658.72 energy!
+
+solve([
+    "12",
+    "6",
+    "4430",
+    "9.8",
+    "5.5",
+    "620.3",
+    "840.2",
+    "960.1",
+    "220",
+    "340",
+    "674",
+    "365",
+    "345.5",
+    "212",
+    "412.12",
+    "258",
+    "496"
+]) // You will run out of energy. You will be left with 229.17 food and 118.59 water.
+
+==========================================================================================
+ChatLogger
+
+function solve(input) {
+    const commands = input.slice()
+    let line = commands.shift()
+    let command = ""
+    let message = ""
+    let index = -1
+    const chat = []
+
+    while (command !== "end") {
+        message = line.split(" ")
+        command = message.shift()
+
+        if (command === "Chat") {
+            chat.splice(chat.length, 0, message[0])
+        }
+
+        if (command === "Delete") {
+            index = chat.indexOf(message[0])
+            if (index > -1) {
+                chat.splice(index, 1)
+            }
+        }
+
+        if (command === "Edit") {
+            index = chat.indexOf(message[0])
+            if (index > -1) {
+                chat.splice(index, 1, message[1])
+            }
+        }
+
+        if (command === "Pin") {
+            index = chat.indexOf(message[0])
+            if (index > -1) {
+                chat.splice(index, 1)
+                chat.splice(chat.length, 0, message[0])
+            }
+        }
+
+        if (command === "Spam") {
+            message.map(m => chat.splice(chat.length, 0, m))
+        }
+
+        line = commands.shift()
+    }
+
+    chat.map(m => console.log(m))
+}
+
+solve([
+    "Chat Hello",
+    "Chat darling",
+    "Edit darling Darling",
+    "Spam how are you",
+    "Delete Darling",
+    "end"
+])
+// Hello
+// how
+// are
+// you
+
+
+solve([
+    "Chat Hello",
+    "Delete John",
+    "Pin Hi",
+    "end"
+])
+// Hello
+
+solve([
+    "Chat John",
+    "Spam Let's go to the zoo",
+    "Edit zoo cinema",
+    "Chat tonight",
+    "Pin John",
+    "end"
+])
+// Let's
+// go
+// to
+// the
+// cinema
+// tonight
+// John
+
+===========================================================================================
+BurgerBus
+
+
+function solve(input) {
+    const commands = input.slice(1)
+    const days = []
+
+    let counter = 1
+
+    for (let i = 0; i < commands.length - 2; i += 3) {
+        days.push({
+            index: counter,
+            town: commands[i],
+            income: Number(commands[i + 1]),
+            expenses: Number(commands[i + 2])
+        })
+        counter++
+    }
+
+    let revised = {}
+    const daysRevised = days.map(day => {
+        let income = day.income
+        let expenses = day.expenses
+
+        if (day.index % 3 === 0 && day.index % 5 === 0) {
+            // raining - every 5th city => -10% of money, no special event
+            // -10% income
+            income = day.income - day.income * 0.1
+        } else if (day.index % 3 === 0) {
+            // special event - every third city => +50% over costs
+            // +50% expenses
+            expenses = day.expenses + day.expenses * 0.5
+        } if (day.index % 5 === 0) {
+            // raining - every 5th city => -10% of money
+            // -10% income
+            income = day.income - day.income * 0.1
+        }
+
+        let profit = income - expenses
+        return revised = {
+            town: day.town,
+            income: income,
+            expenses: expenses,
+            profit: profit
+        }
+    })
+
+    // days.map(day => console.log(day))
+
+    daysRevised.map(day => console.log(
+        `In ${day.town} Burger Bus earned ${(day.profit).toFixed(2)} leva.`
+    ))
+
+    const totalProfit = daysRevised.map(a => a.profit).reduce((a, b) => a + b, 0)
+    console.log(`Burger Bus total profit: ${totalProfit.toFixed(2)} leva.`)
+}
+
+solve([
+    "3",
+    "Sofia",
+    "895.67",
+    "213.50",
+    "Plovdiv",
+    "2563.20",
+    "890.26",
+    "Burgas",
+    "2360.55",
+    "600.00"
+])
+// In Sofia Burger Bus earned 682.17 leva.
+// In Plovdiv Burger Bus earned 1672.94 leva.
+// In Burgas Burger Bus earned 1460.55 leva.
+// Burger Bus total profit: 3815.66 leva.
+
+solve([
+    "5",
+    "Lille",
+    "2226.00",
+    "1200.60",
+    "Rennes",
+    "6320.60",
+    "5460.20",
+    "Reims",
+    "600.20",
+    "452.32",
+    "Bordeaux",
+    "6925.30",
+    "2650.40",
+    "Montpellier",
+    "680.50",
+    "290.20"
+])
+// In Lille Burger Bus earned 1025.40 leva.
+// In Rennes Burger Bus earned 860.40 leva.
+// In Reims Burger Bus earned -78.28 leva.
+// In Bordeaux Burger Bus earned 4274.90 leva.
+// In Montpellier Burger Bus earned 322.25 leva.
+// Burger Bus total profit: 6404.67 leva.
+======================================================================================
+Numbers 
+
+function nums(input) {
+
+	let arr = input.split(' ').map(Number);
+	let avg = arr.reduce((acc, val) => acc + val, 0) / arr.length
+	let filtered = arr.filter(x => x > avg)
+
+	if (filtered.length > 0) {
+		let sorted = filtered.sort((a, b) => b - a).slice(0, 5)
+		console.log(sorted.join(' '));
+	} else {
+		console.log('No');
+	}
+}
+nums('5 2 3 4 -10 30 40 50 20 50 60 60 51')
+nums('1')
+nums('10 20 30 40 50')
+
+=======================================================================================
+
+Coffee Lover
+
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+let coffeeList = [];
+rl.question('', (input) => {
+    coffeeList = input.split(' ');
+    rl.question('', (numCommandsInput) => {
+        const numCommands = parseInt(numCommandsInput);
+        for (let i = 0; i < numCommands; i++) {
+            rl.question('', (inputCom) => {
+                const command = inputCom.split(' ');
+                switch (command[0]) {
+                    case 'Include':
+                        coffeeList.push(command[1]);
+                        break;
+                    case 'Remove':
+                        const numCoffee = parseInt(command[2]);
+                        if (numCoffee < coffeeList.length) {
+                            switch (command[1]) {
+                                case 'first':
+                                    for (let j = 0; j < numCoffee; j++) {
+                                        coffeeList.shift();
+                                    }
+                                    break;
+                                case 'last':
+                                    for (let j = 0; j < numCoffee; j++) {
+                                        coffeeList.pop();
+                                    }
+                                    break;
+                            }
+                        }
+                        break;
+                    case 'Prefer':
+                        const firstCoffee = parseInt(command[1]);
+                        const secondCoffee = parseInt(command[2]);
+                        if (firstCoffee < coffeeList.length && secondCoffee < coffeeList.length) {
+                            const first = coffeeList[firstCoffee];
+                            const second = coffeeList[secondCoffee];
+                            coffeeList[firstCoffee] = second;
+                            coffeeList[secondCoffee] = first;
+                        }
+                        break;
+                    case 'Reverse':
+                        coffeeList.reverse();
+                        break;
+                }
+                if (i === numCommands - 1) {
+                    console.log('Coffees: ');
+                    console.log(coffeeList.join(' '));
+                    rl.close();
+                }
+            });
+        }
+    });
+});
+
+
+==========================================================================================
+
+Experience Gaining
+
+const neededExperience = Number(readline());
+const countOfBattles = Number(readline());
+let totalGatheredExperience = 0;
+let currentNumberOfBattle = 0;
+
+for (let i = 1; i <= countOfBattles; i++) {
+  const earnedExperiencePerBattle = Number(readline());
+
+  if (i % 3 === 0) {
+    totalGatheredExperience += earnedExperiencePerBattle + (earnedExperiencePerBattle * 0.15);
+  } else if (i % 5 === 0) {
+    totalGatheredExperience += earnedExperiencePerBattle - (earnedExperiencePerBattle * 0.1);
+  } else {
+    totalGatheredExperience += earnedExperiencePerBattle;
+  }
+
+  currentNumberOfBattle++;
+
+  if (totalGatheredExperience >= neededExperience) {
+    console.log(`Player successfully collected his needed experience for ${currentNumberOfBattle} battles.`);
+    break;
+  }
+
+  if (currentNumberOfBattle === countOfBattles) {
+    const moreNeededExperience = neededExperience - totalGatheredExperience;
+    console.log(`Player was not able to collect the needed experience, ${moreNeededExperience.toFixed(2)} more needed.`);
+  }
+}
+
+====================================================================================
