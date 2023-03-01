@@ -4,9 +4,14 @@ function inventory(data){
    for(let line of data){
         let [name, level, items] = line.split("/");
         let heroes = {
-            name
+            name: name,
+            level: Number(level),
+            items: items.split(", ")
         }
+        res.push(heroes);
    }
+
+   
 } 
 
 inventory();
