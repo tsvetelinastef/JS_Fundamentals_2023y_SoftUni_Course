@@ -1,0 +1,59 @@
+function Orders ( food, quantity ) {
+    let price = 0;
+    if ( food === "coffee" ) {
+        CoffeePrice(quantity);
+    } else if ( food === "water") {
+        WaterPrice (quantity);
+    } else if ( food === "coke") {
+        CokePrice(quantity);
+    } else {
+        SnackPrice(quantity);
+    }
+
+    function CoffeePrice ( quantity ) {
+        price = quantity*1.50;
+        return price;
+    }
+
+    function WaterPrice ( quantity ) {
+        price = quantity*1.00;
+        return price;
+    }
+
+    function CokePrice ( quantity ) {
+        price = quantity*1.40;
+        return price;
+    }
+
+    function SnackPrice ( quantity ) {
+        price = quantity*2.00;
+        return price;
+    }
+
+    console.log(price.toFixed(2));
+}
+Днес в 17:07 ч.
+17:07 ч.
+Изпратихте
+function orders(product, quantity) { 
+   let res; 
+  
+   switch (product) { 
+     case "coffee": 
+       res = (x) => quantity * 1.5; 
+       break; 
+     case "water": 
+       res = (x) => quantity * 1; 
+       break; 
+     case "coke": 
+       res = (x) => quantity * 1.4; 
+       break; 
+     case "snacks": 
+       res = (x) => quantity * 2; 
+       break; 
+   } 
+  
+   console.log(res(product, quantity).toFixed(2)); 
+ } 
+ orders("water", 5); 
+ orders("coffee", 2);
