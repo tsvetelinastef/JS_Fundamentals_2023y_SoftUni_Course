@@ -5,6 +5,7 @@ function tseamAccount(array){
   
     while (command !== "Play!") {
       let tempCommand = command.split(" ");
+
       switch (tempCommand[0]) {
         case "Install":
           if (!account.includes(tempCommand[1])) {
@@ -29,7 +30,7 @@ function tseamAccount(array){
           }
           break;
 
-          
+
         case "Expansion":
           let game = tempCommand[1].split("-");
           let gameName = game[0];
