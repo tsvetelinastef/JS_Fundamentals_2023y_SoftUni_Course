@@ -1,6 +1,6 @@
 // 83/ 100 
 /*
-give me JS code starting with function for this task: You will be given a text string. To find the hidden eggs and their amount,
+JS code starting with function for this task: You will be given a text string. To find the hidden eggs and their amount,
 read them and mark the ones that are valid, considering the following rules:   Eggs' color: Surrounded by one
 or more "@" or "#" (they don't have to be the same). It is written with lower case alphabetical letters only.
 Each color should be minimum 3 letters long. ..... Amount: Always positioned after the color. Between the color
@@ -40,6 +40,7 @@ EasterEggs((['@@@@green@*/10/@yel0w@*26*#red#####//8//@limon*@*23*@@@red#*/%^&/6
 
 
 ///================================================================
+
 // tryings and tryings............. to make this 100 / 100
 //function EasterEggs(input){
 
@@ -58,7 +59,7 @@ EasterEggs((['@@@@green@*/10/@yel0w@*26*#red#####//8//@limon*@*23*@@@red#*/%^&/6
 //}
 
 //EasterEggs(['@@@@green@*/10/@yel0w@*26*#red#####//8//@limon*@*23*@@@red#*/%^&/6/@gree_een@/notnumber/###purple@@@@@*$%^&*/5/']);
-//===================================================
+//====================================================================
 //function EasterEggs(input) {
   //  let text = input[0];
   //  let pattern = /(@|#)+([a-zA-Z]{3,})[^a-zA-Z\d]*(\d+)[^a-zA-Z\d]*\//g;
@@ -73,7 +74,8 @@ EasterEggs((['@@@@green@*/10/@yel0w@*26*#red#####//8//@limon*@*23*@@@red#*/%^&/6
 
 //EasterEggs(['@@@@green@*/10/@yel0w@*26*#red#####//8//@limon*@*23*@@@red#*/%^&/6/@gree_een@/notnumber/###purple@@@@@*$%^&*/5/']);
 
-//============================================================
+//=====================================================================
+
 //function EasterEggs(input) {
    // let text = input[0];
    // let pattern = /(@|#)(?<color>[a-zA-Z]{3,})\1.*?(\d+)\b/g;
@@ -101,6 +103,7 @@ EasterEggs((['@@@@green@*/10/@yel0w@*26*#red#####//8//@limon*@*23*@@@red#*/%^&/6
         let amount = match.groups['amount'];
         console.log(`You found ${amount} ${color} eggs!`);
         match = pattern.exec(text);
+        
     }
  
 }
@@ -116,7 +119,7 @@ EasterEggs((['@@@@green@*/10/@yel0w@*26*#red#####//8//@limon*@*23*@@@red#*/%^&/6
       const amount = match[3];
       console.log(`You found ${amount} ${color} eggs!`);
       match = pattern.exec(text);
-    }
-  }
+   }
+ }
   
   */
