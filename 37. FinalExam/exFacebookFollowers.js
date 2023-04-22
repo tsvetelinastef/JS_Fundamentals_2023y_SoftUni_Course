@@ -1,24 +1,13 @@
 /*
-give JS code starting with function of this task: Create a program
- that keeps the information about Jane's Facebook followers, 
- their likes, and comments. Keep a record of the followers, 
- each with the count of likes and comments Jane has received 
- from them. You will be receiving lines with commands until 
- you receive the "Log out" command. There are four possible 
- commands:  "New follower: {username}" - Add the username to
-  your records (with 0 likes and 0 comments). If a person with 
-the given username already exists, ignore the line. ...
-"Like: {username}: {count}" - If the username doesn't exist, 
-add it to your records with the given count of likes. 
-If the username exists, increase the count of likes with the
-given count. .... "Comment: {username}" - If the username 
-doesn't exist, add it to your records with 1 comment. 
-If the username exists, increase the count of comments 
-with 1 .... "Blocked: {username}" - Delete all records
-of the given username. If it doesn't exist, print:
-"{Username} doesn't exist." ... In the end, you have
-to print the count of followers, each follower with
-their likes and 
+Create a program that keeps the information about Jane's Facebook followers, 
+their likes, and comments. Keep a record of the followers, each with the count of likes and comments Jane has received 
+from them. You will be receiving lines with commands until  you receive the "Log out" command. There are four possible 
+commands:  "New follower: {username}" - Add the username to your records (with 0 likes and 0 comments). If a person with 
+the given username already exists, ignore the line. ... "Like: {username}: {count}" - If the username doesn't exist, 
+add it to your records with the given count of likes.  If the username exists, increase the count of likes with the
+given count. .... "Comment: {username}" - If the username  doesn't exist, add it to your records with 1 comment. 
+If the username exists, increase the count of comments with 1 .... "Blocked: {username}" - Delete all records of the given username. If it doesn't exist, print:
+"{Username} doesn't exist." ... In the end, you have to print the count of followers, each follower with their likes and 
 comments(the sum of likes and comments): "{count} followers" 
 {username}: {likes+comments}  {username}: {likes+comments} 
  ..... {username}: {likes+comments} " ... 

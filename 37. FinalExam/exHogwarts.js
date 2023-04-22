@@ -1,15 +1,12 @@
-/* give JS code starting with function of this task:  First, you will receive a spell that needs to be deciphered.
- Next, you will be receiving commands split by a single space until you get the "Abracadabra" command. 
- There are 5 possible commands:  "Abjuration" - Replace all letters with upper case and print the result 
- ..... "Necromancy" - Replace all letters with lower case and print the result. ... "Illusion {index} {letter}"
-  - Replace the letter at the index with the given one and print "Done!" If the index is invalid, print: 
-  "The spell was too weak." ... "Divination {first substring} {second substring}" - 
-  Replace the first substring(all matches) with the second and print the result.
-   If the substring does not exist, skip the command. .... "Alteration {substring}" - Remove the substring from the string 
-   and print the result. If the substring does not exist, skip the command. If the input command is not in the list, print 
-   "The spell did not work!"   .... Input:  On the first line, you are going to receive the string ... On the next lines,
-    until you receive "Abracadabra", you will be receiving commands. All commands are case - sensitive. ..... 
-    Output: Print the output of the commands in the format described above. */
+/*  First, you will receive a spell that needs to be deciphered. Next, you will be receiving commands split by a single space until you get the "Abracadabra" command. 
+There are 5 possible commands:  "Abjuration" - Replace all letters with upper case and print the result ..... 
+"Necromancy" - Replace all letters with lower case and print the result. ... "Illusion {index} {letter}"
+- Replace the letter at the index with the given one and print "Done!" If the index is invalid, print: 
+"The spell was too weak." ... "Divination {first substring} {second substring}" -  Replace the first substring(all matches) with the second and print the result.
+If the substring does not exist, skip the command. .... "Alteration {substring}" - Remove the substring from the string and print the result. 
+If the substring does not exist, skip the command. If the input command is not in the list, print "The spell did not work!"   
+Input:  On the first line, you are going to receive the string ... On the next lines, until you receive "Abracadabra", you will be receiving commands. 
+All commands are case - sensitive. ..... Output: Print the output of the commands in the format described above. */
 
     // 1000/ 100
     function spellDecipher(input) {
